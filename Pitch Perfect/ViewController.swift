@@ -23,7 +23,7 @@ class ViewController: UIViewController {
 
     @IBAction func RecordAudio(sender: UIButton) {
         print("button pressed")
-      
+        RecordingInProgress.hidden = false
       
         
     }
@@ -31,9 +31,11 @@ class ViewController: UIViewController {
         
     }
 
+    @IBOutlet weak var RecordingInProgress: UILabel!
  
     
     @IBAction func StopRecording(sender: UIButton) {
+        RecordingInProgress.hidden = true
     }
 }
 
