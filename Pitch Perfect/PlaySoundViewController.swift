@@ -7,13 +7,39 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PlaySoundViewController: UIViewController {
 
+    var alertSound:NSURL?
+    var avplayer:AVAudioPlayer?
+    
+    func SetupMusicFile(file: String, Type: String)
+    {
+        if let filepath = NSBundle.mainBundle().pathForResource(file, ofType: Type)
+        {
+         let url = NSURL(fileURLWithPath: filepath)
+         print(url)
+            do
+            {
+               try avplayer = AVAudioPlayer(contentsOfURL: url)
+                avplayer?.play()
+            }
+            catch
+            {}
+            
+        }
+        
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        SetupMusicFile("movie_quote", Type: "mp3")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +48,10 @@ class PlaySoundViewController: UIViewController {
     }
     
     @IBAction func PlaySound(sender: UIButton) {
+        avplayer?.enableRate = true
+        avplayer?.rate = 0.5
+       
+        avplayer?.play()
     }
 
     /*
