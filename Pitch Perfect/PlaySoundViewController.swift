@@ -3,7 +3,7 @@
 //  Pitch Perfect
 //
 //  Created by Peng Wang on 2015-11-18.
-//  Copyright © 2015 Peng Wang. All rights reserved.
+//  Copyright © 2015 Peng Darrian Wang. All rights reserved.
 //
 
 import UIKit
