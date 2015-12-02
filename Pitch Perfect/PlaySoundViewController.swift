@@ -12,26 +12,43 @@ import AVFoundation
 class PlaySoundViewController: UIViewController {
 
     var alertSound:NSURL?
-    var avplayer:AVAudioPlayer?
+    var avplayer:AVAudioPlayer!
+    var ReceievedAudio:RecordedAudio?
     
     func SetupMusicFile(file: String, Type: String)
     {
-        if let filepath = NSBundle.mainBundle().pathForResource(file, ofType: Type)
-        {
-         let url = NSURL(fileURLWithPath: filepath)
-         print(url)
-            do
+        //if ReceievedAudio==nil {
+            print("data not ready")
+        
+            if let filepath = NSBundle.mainBundle().pathForResource(file, ofType: Type)
             {
-               try avplayer = AVAudioPlayer(contentsOfURL: url)
-                avplayer?.play()
+                let url = NSURL(fileURLWithPath: filepath)
+                
+                do
+                {
+                    try avplayer = AVAudioPlayer(contentsOfURL: url)
+                
+                }
+                catch
+                {}
+     
             }
-            catch
-            {}
-            
+        /*
+        }else{
+            try! avplayer = AVAudioPlayer(contentsOfURL: ReceievedAudio!.filePathUrl)
         }
+*/
         
         
-        
+    }
+    
+  
+    
+    func PlaySoundAtRate(rate: Float) {
+        avplayer.enableRate = true
+        avplayer.rate = rate
+        avplayer.stop()
+        avplayer.play()
     }
     
     override func viewDidLoad() {
@@ -48,12 +65,15 @@ class PlaySoundViewController: UIViewController {
     }
     
     @IBAction func PlaySound(sender: UIButton) {
-        avplayer?.enableRate = true
-        avplayer?.rate = 0.5
-       
-        avplayer?.play()
-    }
+        PlaySoundAtRate(0.5)    }
 
+    @IBAction func PlaySoundFast(sender: UIButton) {
+        PlaySoundAtRate(2)    }
+    
+    @IBAction func StopPlaySound(sender: UIButton) {
+        avplayer.stop()
+    }
+    
     /*
     // MARK: - Navigation
 
