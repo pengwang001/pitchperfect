@@ -49,8 +49,9 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
         StopButton.hidden = false
         RecordButton.enabled = false
         
+        
         let session = AVAudioSession.sharedInstance()
-        try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        try! session.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
         try! audiorecorder = AVAudioRecorder(URL: recordingfilePath, settings: [:])
         audiorecorder.meteringEnabled = true
         audiorecorder.delegate = self
@@ -76,12 +77,14 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "StopRecording") {
-            let TargetViewController:PlaySoundViewController = segue.destinationViewController as! PlaySoundViewController
-            let data:RecordedAudio = sender as! RecordedAudio
-            TargetViewController.ReceievedAudio = data
-            
+                let TargetViewController:PlaySoundViewController = segue.destinationViewController as! PlaySoundViewController
+                let data:RecordedAudio = sender as! RecordedAudio
+                TargetViewController.ReceievedAudio = data
+                
+                
+            }
         }
-    }
+    
     
     @IBAction func TestTouchDown(sender: UIButton) {
         
@@ -94,7 +97,7 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     @IBAction func StopRecording(sender: UIButton) {
         RecordingInProgress.hidden = true
         audiorecorder.stop()
-        let audioSession = AVAudioSession.sharedInstance()
+       let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
         
     }

@@ -17,7 +17,7 @@ class PlaySoundViewController: UIViewController {
     
     func SetupMusicFile(file: String, Type: String)
     {
-        //if ReceievedAudio==nil {
+        if ReceievedAudio==nil {
             print("data not ready")
         
             if let filepath = NSBundle.mainBundle().pathForResource(file, ofType: Type)
@@ -33,11 +33,11 @@ class PlaySoundViewController: UIViewController {
                 {}
      
             }
-        /*
+        
         }else{
             try! avplayer = AVAudioPlayer(contentsOfURL: ReceievedAudio!.filePathUrl)
         }
-*/
+
         
         
     }
