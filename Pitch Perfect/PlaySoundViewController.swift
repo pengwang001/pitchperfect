@@ -14,6 +14,9 @@ class PlaySoundViewController: UIViewController {
     var alertSound:NSURL?
     var avplayer:AVAudioPlayer!
     var ReceievedAudio:RecordedAudio?
+    var audioEngine:AVAudioEngine!
+    var audiofile:AVAudioFile!
+  
     
     func SetupMusicFile(file: String, Type: String)
     {
@@ -36,8 +39,10 @@ class PlaySoundViewController: UIViewController {
         
         }else{
             try! avplayer = AVAudioPlayer(contentsOfURL: ReceievedAudio!.filePathUrl)
+            try! audiofile = AVAudioFile(forReading: ReceievedAudio!.filePathUrl)
         }
 
+        audioEngine = AVAudioEngine()
         
         
     }
@@ -72,9 +77,40 @@ class PlaySoundViewController: UIViewController {
     
     @IBAction func StopPlaySound(sender: UIButton) {
         avplayer.stop()
+        audioEngine.stop()
     }
     
+    func PlaySoundWithVariablePitch(pitch: Float) {
+        avplayer.stop()
+        audioEngine.stop()
+        audioEngine.reset()
+        let pitchPlayer = AVAudioPlayerNode()
+       
+        let timePitch = AVAudioUnitTimePitch()
+        timePitch.pitch = pitch
+        
+        audioEngine.attachNode(pitchPlayer)
+        audioEngine.attachNode(timePitch)
+        
+        audioEngine.connect(pitchPlayer, to: timePitch, format: audiofile.processingFormat)
+        audioEngine.connect(timePitch, to: audioEngine.outputNode, format: audiofile.processingFormat)
+        
+        pitchPlayer.scheduleFile(audiofile, atTime: nil, completionHandler: nil)
+        
+        
+        try! audioEngine.start()
+        pitchPlayer.play()
+
+
+    }
+    
+    @IBAction func PlayDarthVaderAudio(sender: UIButton) {
+        PlaySoundWithVariablePitch(-1000)
+    }
     @IBAction func PlayChipmunkAudio(sender: UIButton) {
+        
+       PlaySoundWithVariablePitch(1000)
+        
         
     }
     /*
